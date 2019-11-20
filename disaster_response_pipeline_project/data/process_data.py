@@ -4,12 +4,22 @@ import numpy as np
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
     messages_df = pd.read_csv(messages_filepath)
     categories_df = pd.read_csv(categories_filepath)
     df = messages_df.merge(categories_df, how = 'left', on = 'id')
     return df
 
 def clean_data(df):
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(pat=';', expand=True)
 
@@ -40,10 +50,20 @@ def clean_data(df):
     return cleaned_df
 
 def save_data(df, database_filename):
-    engine = create_engine('sqllite:///InsertDatabaseName.db')
-    df.to_sql(database_filename, engine, index = False)
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
+    engine = create_engine(database_filename)
+    df.to_sql('InsertTableName', engine, index=False)
 
 def main():
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]

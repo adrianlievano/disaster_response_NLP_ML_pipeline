@@ -1,27 +1,101 @@
 import sys
+import pandas as pd
+import nltk
+from sqlalchemy import create_engine
+from nltk.tokenize import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.corpus import stopwords
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.metrics import classification_report
+from sklearn.externals import joblib
 
 
 def load_data(database_filepath):
-    pass
+    '''
+    ARGUMENTS:
 
+    OUTPUTS:
+    '''
+    engine = create_engine(database_filepath)
+
+    df = pd.read_sql_table('InsertTableName', engine)
+    X = df['message']
+    Y = df.loc[:, df.columns != 'message'].drop(['id', 'genre', 'original'], axis=1)
+    category_names = list(Y.coumns)
+
+    return X, Y, category_names
 
 def tokenize(text):
-    pass
+    '''
+    ARGUMENTS:
 
+    OUTPUTS:
+    '''
+    tokens = word_tokenize(text)
+    stop_words = stopwords.words('english')
+    tokens = [word for word in tokens if word not in stop_words]
+    lemmatizer = WordNetLemmatizer()
+    clean_tokens = []
+
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tokens.append(clean_tok)
+
+    return clean_tokens
 
 def build_model():
-    pass
+    '''
+    ARGUMENTS:
 
+    OUTPUTS:
+    '''
+    pipeline = Pipeline([
+        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
+    ])
+
+    return pipeline
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
+    y_pred = cv.predict(X_test)
+
+
+    y_pred_df = pd.DataFrame(y_pred, columns=Y.columns)
+    for column in category_names:
+        print('\n---- {} ----\n{}\n'.format(column, classification_report(Y_test[column], y_pred_df[column])))
+
 
 
 def save_model(model, model_filepath):
-    pass
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
+    joblib.dump(model, model_filepath)
 
 
 def main():
+    '''
+    ARGUMENTS:
+
+    OUTPUTS:
+    '''
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
