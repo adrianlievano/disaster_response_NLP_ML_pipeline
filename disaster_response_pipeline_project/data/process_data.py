@@ -5,9 +5,14 @@ from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
     '''
-    ARGUMENTS:
+    ARGUMENTS: 
+    messages_filepath: a string filepath to a csv file of text data
+    categories_filepath: a string filepath to a csv file of message categories 
+    for the disaster response data.
 
-    OUTPUTS:
+    OUTPUTS: 
+    df: a dataframe containing the merged result of two dataframes on the foreign
+    key of 'id.'
     '''
     messages_df = pd.read_csv(messages_filepath)
     categories_df = pd.read_csv(categories_filepath)
@@ -17,8 +22,12 @@ def load_data(messages_filepath, categories_filepath):
 def clean_data(df):
     '''
     ARGUMENTS:
+    df: a merged dataframe of messages and categories from the disaster response
+    dataset. 
 
     OUTPUTS:
+    clean_df: a preprocessed dataframe with appropriately formatted columns for 
+    each category.
     '''
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(pat=';', expand=True)
@@ -52,6 +61,8 @@ def clean_data(df):
 def save_data(df, database_filename):
     '''
     ARGUMENTS:
+    df: a dataframe
+    database_filename: a filepath saving the dataframe into a sql tabe.
 
     OUTPUTS:
     '''
@@ -59,11 +70,6 @@ def save_data(df, database_filename):
     df.to_sql('InsertTableName', engine, index=False)
 
 def main():
-    '''
-    ARGUMENTS:
-
-    OUTPUTS:
-    '''
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]

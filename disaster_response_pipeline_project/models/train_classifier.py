@@ -21,9 +21,9 @@ from sklearn.externals import joblib
 
 def load_data(database_filepath):
     '''
-    ARGUMENTS:
-
-    OUTPUTS:
+    ARGUMENTS: a filepath to a SQL database
+    OUTPUTS: this function returns the features, target column, and category 
+    names of the datatable.
     '''
     engine = create_engine(database_filepath)
 
@@ -36,9 +36,10 @@ def load_data(database_filepath):
 
 def tokenize(text):
     '''
-    ARGUMENTS:
-
-    OUTPUTS:
+    ARGUMENTS: text data
+    OUTPUTS: a cleaned list of words that capture the features of the text input.
+    The function removes stop_words in the english language and normalizes the try:
+    after lemmatization. 
     '''
     tokens = word_tokenize(text)
     stop_words = stopwords.words('english')
@@ -54,9 +55,10 @@ def tokenize(text):
 
 def build_model():
     '''
-    ARGUMENTS:
+    ARGUMENTS: 
 
-    OUTPUTS:
+    OUTPUTS: Prepares a scikit learn transformation and evaluation pipeline
+    to process the text data. 
     '''
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
@@ -68,9 +70,10 @@ def build_model():
 
 def evaluate_model(model, X_test, Y_test, category_names):
     '''
-    ARGUMENTS:
+    ARGUMENTS: Receives a model, X_test, Y_test, and a set of category names.
 
-    OUTPUTS:
+    OUTPUTS: Tables that summarize the precision, recall, f1-score for each 
+    trained classifier on each category in category_names. 
     '''
     y_pred = cv.predict(X_test)
 
@@ -84,18 +87,16 @@ def evaluate_model(model, X_test, Y_test, category_names):
 def save_model(model, model_filepath):
     '''
     ARGUMENTS:
+    Receives a trained model and designated filepath to save. 
 
     OUTPUTS:
+    A saved model accessible at the model_filepath
     '''
     joblib.dump(model, model_filepath)
 
 
 def main():
-    '''
-    ARGUMENTS:
 
-    OUTPUTS:
-    '''
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
