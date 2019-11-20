@@ -12,3 +12,12 @@
     `python run.py`
 
 3. Go to http://0.0.0.0:3001/
+
+
+### The Data ###
+
+#### Imbalanced Data: How this Impacts the Results ####
+
+### Heroku Hosting ###
+
+### Next Steps: Forming Partnerships ###
