@@ -25,12 +25,12 @@ def load_data(database_filepath):
     OUTPUTS: this function returns the features, target column, and category 
     names of the datatable.
     '''
-    engine = create_engine(database_filepath)
+    engine = create_engine(f'sqlite:///{database_filepath}')
 
-    df = pd.read_sql_table('InsertTableName', engine)
+    df = pd.read_sql_table('DisasterResponse', engine)
     X = df['message']
     Y = df.loc[:, df.columns != 'message'].drop(['id', 'genre', 'original'], axis=1)
-    category_names = list(Y.coumns)
+    category_names = list(Y.columns)
 
     return X, Y, category_names
 
@@ -75,10 +75,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
     OUTPUTS: Tables that summarize the precision, recall, f1-score for each 
     trained classifier on each category in category_names. 
     '''
-    y_pred = cv.predict(X_test)
+    y_pred = model.predict(X_test)
 
 
-    y_pred_df = pd.DataFrame(y_pred, columns=Y.columns)
+    y_pred_df = pd.DataFrame(y_pred, columns=category_names)
     for column in category_names:
         print('\n---- {} ----\n{}\n'.format(column, classification_report(Y_test[column], y_pred_df[column])))
 
