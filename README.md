@@ -38,7 +38,7 @@ Given the different categories from the training set and that most of the disast
         <li>weather_related</li>
         <li>direct_report</li>
         <li>other_aid</li> 
-        <li>food</li> 
-    </ol
-    
- We recommend that this organization partners with non-profits that can address a wide variety of needs in a short period of time. These include organizations like the American Red Cross, which has international reach, and ACTS World Relief, which unites, trains, and equips responders in these emergency situations. 
+        <li>food</li>
+    </ol>
+   
+We recommend that this organization partners with non-profits that can address a wide variety of needs in a short period of time. These include organizations like the American Red Cross, which has international reach, and ACTS World Relief, which unites, trains, and equips responders in these emergency situations. 
