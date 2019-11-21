@@ -66,7 +66,14 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
 
-    return pipeline
+    parameters = {
+        'clf__estimator__n_estimators': [5, 10, 15],
+        'clf__estimator__min_samples_split': [2, 3, 4, 10]
+    }
+
+    model = GridSearchCV(pipeline, param_grid=parameters)
+
+    return model
 
 def evaluate_model(model, X_test, Y_test, category_names):
     '''
@@ -81,8 +88,6 @@ def evaluate_model(model, X_test, Y_test, category_names):
     y_pred_df = pd.DataFrame(y_pred, columns=category_names)
     for column in category_names:
         print('\n---- {} ----\n{}\n'.format(column, classification_report(Y_test[column], y_pred_df[column])))
-
-
 
 def save_model(model, model_filepath):
     '''
