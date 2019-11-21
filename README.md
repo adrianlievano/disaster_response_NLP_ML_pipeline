@@ -15,6 +15,7 @@
 
 
 ### The Data ###
+The goal of this natural language processing application is to read, process, and predict the needs of people that send disaster messages to an organization. In this dataset, there are 36 possible categories that messages can be classified as. With higher performance of classification, we can quickly direct messages to the appropriate aid organization so that the user can get the help they need fast. 
 
 #### Imbalanced Data: How this Impacts the Results ####
 
