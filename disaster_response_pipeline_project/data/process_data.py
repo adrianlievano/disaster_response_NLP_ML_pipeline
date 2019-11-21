@@ -66,8 +66,8 @@ def save_data(df, database_filename):
 
     OUTPUTS:
     '''
-    engine = create_engine(database_filename)
-    df.to_sql('InsertTableName', engine, index=False)
+    engine = create_engine(f'sqlite:///'+ database_filename)
+    df.to_sql(database_filename[0:-3], engine, index=False)
 
 def main():
     if len(sys.argv) == 4:
