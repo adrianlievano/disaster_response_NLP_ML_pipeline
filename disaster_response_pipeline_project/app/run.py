@@ -1,5 +1,7 @@
 import json
 import plotly
+import plotly.graph_objects as go
+
 import pandas as pd
 
 from nltk.stem import WordNetLemmatizer
@@ -31,7 +33,8 @@ df = pd.read_sql_table('DisasterResponse', engine)
 
 # load model
 model = joblib.load("../models/classifier.pkl")
-
+df_targets = df.loc[:, df.columns != 'message'].drop(['id', 'genre','original'], axis = 1)
+target_columns = list(df_targets.columns)
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
@@ -44,6 +47,18 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    #second bar chart data extraction
+    df_target_counts = pd.DataFrame(df[target_columns].sum().sort_values(ascending = False))
+    df_target_counts = df_target_counts.reset_index()
+    df_target_counts['total_counts'] = df_target_counts[0]
+    category_names = df_target_counts['index']
+    category_counts = df_target_counts['total_counts']
+
+
+    #Third histogram plot data extraction
+
+
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -62,6 +77,25 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
                 }
             }
         }
