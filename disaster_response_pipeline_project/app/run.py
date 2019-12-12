@@ -53,7 +53,10 @@ def index():
     df_target_counts['total_counts'] = df_target_counts[0]
     category_names = df_target_counts['index']
     category_counts = df_target_counts['total_counts']
+    cat_names = []
 
+    for name in category_names:
+        cat_names.append(str(name))
 
     #Third histogram plot data extraction
 
@@ -84,7 +87,7 @@ def index():
         {
             'data': [
                 Bar(
-                    x=category_names,
+                    x=cat_names,
                     y=category_counts
                 )
             ],
