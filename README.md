@@ -1,4 +1,24 @@
 # Disaster Response Pipeline Project
+## By Adrian Lievano
+
+### Summary of the Project ### 
+In this project, we wanted to train an NLP model to classify text messages from people in disaster scenarios. To do so, we trained our model on 36 possible disaster genres that text messages could fall into: this meant emergencies related to water, electricity, children missing, first_aid, food, and more. We wanted to train a model to do this so that first responders could allocate the appropriate resources to the person in need as fast as possible. 
+
+### Explanation of Files in the Repository ###
+
+etl_notebook.ipynb: jupyter notebook with ETL processing code to wrangle the data
+ml_pipeline.ipynb: jupyter notebook with machine learning code to build NLP pipeline
+
+disaster_response_pipeline_project (directory):
+	app (directory):
+		- Contains HTML and flask code needed to run the local flask application. 
+	models (directory): 
+		- Contains a classifier.pkl file which saved the trained model. 
+		- Contains the 		train_classifier.py file that runs the model.
+	data (directory): 
+		- Contains raw and processed data we used to train the model. 
+	nlp_env (directory): 
+		- Contains library of files for the NLP processing part of the code
 
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
